@@ -1,0 +1,343 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #f8f9f5;
+  margin: 0;
+  color: #333;
+}
+
+header {
+  background: #7cb342;
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+nav ul {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  transition: opacity 0.3s;
+}
+
+nav a:hover {
+  opacity: 0.8;
+}
+
+.section {
+  padding: 20px;
+}
+
+.section h2 {
+  color: #7cb342;
+  margin-bottom: 20px;
+}
+
+.card-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  flex: 1;
+  min-width: 200px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card h3 {
+  margin: 0 0 10px 0;
+  color: #7cb342;
+  font-size: 1em;
+}
+
+.card p {
+  font-size: 2.5em;
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+th, td {
+  border: 1px solid #e0e0e0;
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background: #7cb342;
+  color: white;
+  font-weight: 600;
+}
+
+tr:hover {
+  background: #f5f5f5;
+}
+
+.action-btn {
+  padding: 6px 12px;
+  margin: 0 4px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.edit-btn {
+  background: #4caf50;
+  color: white;
+}
+
+.edit-btn:hover {
+  background: #45a049;
+}
+
+.delete-btn {
+  background: #f44336;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #da190b;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+form label {
+  font-weight: 600;
+  color: #555;
+  margin-top: 5px;
+}
+
+form input, form select, form button {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+}
+
+form input:focus, form select:focus {
+  outline: none;
+  border-color: #7cb342;
+}
+
+form button {
+  background-color: #7cb342;
+  color: white;
+  cursor: pointer;
+  border: none;
+  font-weight: bold;
+  margin-top: 10px;
+  transition: background 0.3s;
+}
+
+form button:hover {
+  background: #689f38;
+}
+
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1001;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+}
+
+.modal-content h2 {
+  color: #7cb342;
+  margin-top: 0;
+}
+
+.modal-content form {
+  max-width: 100%;
+}
+
+/* Chatbot Styles */
+.chat-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 320px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  overflow: hidden;
+  z-index: 1000;
+}
+
+#chat-header {
+  background: #7cb342;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-weight: bold;
+}
+
+#chat-box {
+  height: 250px;
+  padding: 10px;
+  overflow-y: auto;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  background: #f9f9f9;
+}
+
+.bot-msg, .user-msg {
+  margin: 8px 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  max-width: 80%;
+  word-wrap: break-word;
+  line-height: 1.4;
+}
+
+.bot-msg {
+  background: #e0f2f1;
+  align-self: flex-start;
+  color: #333;
+}
+
+.user-msg {
+  background: #c5e1a5;
+  align-self: flex-end;
+  color: #333;
+}
+
+.chat-input {
+  display: flex;
+  border-top: 1px solid #ccc;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  outline: none;
+  font-family: 'Poppins', sans-serif;
+}
+
+.chat-input button {
+  background: #7cb342;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.chat-input button:hover {
+  background: #689f38;
+}
+
+footer {
+  background: #333;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  margin-top: 40px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .card-container {
+    flex-direction: column;
+  }
+
+  .chat-container {
+    width: 90%;
+    right: 5%;
+  }
+}
