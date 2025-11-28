@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AyurSutra Doctor Panel</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header>
+  <h1>🌿 AyurSutra Panchkarma - Doctor Panel</h1>
+  <nav>
+    <ul>
+      <li><a href="#dashboard">Dashboard</a></li>
+      <li><a href="#patients">Patients</a></li>
+      <li><a href="#appointments">Appointments</a></li>
+      <li><a href="#chatbot">Chatbot</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section id="dashboard" class="section">
+  <h2>Doctor Dashboard</h2>
+  <div class="card-container">
+    <div class="card">
+      <h3>Today's Appointments</h3>
+      <p id="todayAppointments">0</p>
+    </div>
+    <div class="card">
+      <h3>Pending Reports</h3>
+      <p id="pendingReports">0</p>
+    </div>
+    <div class="card">
+      <h3>New Patients</h3>
+      <p id="newPatients">0</p>
+    </div>
+  </div>
+</section>
+
+<section id="patients" class="section">
+  <h2>Patient Records</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Patient Name</th>
+        <th>Age</th>
+        <th>Treatment</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="patientTableBody">
+      <tr><td colspan="5" style="text-align:center;">Loading...</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="appointments" class="section">
+  <h2>Add New Appointment</h2>
+  <form id="appointmentForm">
+    <label>Patient Name:</label>
+    <input type="text" id="patientName" required />
+    
+    <label>Age:</label>
+    <input type="number" id="patientAge" required />
+    
+    <label>Date:</label>
+    <input type="date" id="appointmentDate" required />
+    
+    <label>Treatment:</label>
+    <select id="treatment">
+      <option>Abhyanga</option>
+      <option>Shirodhara</option>
+      <option>Virechana</option>
+      <option>Nasya</option>
+    </select>
+
+    <label>Status:</label>
+    <select id="status">
+      <option>Scheduled</option>
+      <option>Completed</option>
+      <option>Cancelled</option>
+    </select>
+
+    <button type="submit">Add Appointment</button>
+  </form>
+</section>
+
+<!-- Edit Patient Modal -->
+<div id="editModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Edit Patient Details</h2>
+    <form id="editPatientForm">
+      <input type="hidden" id="editPatientId" />
+      
+      <label>Patient Name:</label>
+      <input type="text" id="editPatientName" required />
+      
+      <label>Age:</label>
+      <input type="number" id="editPatientAge" required />
+      
+      <label>Treatment:</label>
+      <select id="editTreatment">
+        <option>Abhyanga</option>
+        <option>Shirodhara</option>
+        <option>Virechana</option>
+        <option>Nasya</option>
+      </select>
+
+      <label>Status:</label>
+      <select id="editStatus">
+        <option>Scheduled</option>
+        <option>Completed</option>
+        <option>Cancelled</option>
+      </select>
+
+      <button type="submit">Update Patient</button>
+    </form>
+  </div>
+</div>
+
+<div id="chatbot" class="chat-container">
+  <div id="chat-header">💬 AyurSutra Assistant</div>
+  <div id="chat-box">
+    <div class="bot-msg">Hello! How can I assist you today?</div>
+  </div>
+  <div class="chat-input">
+    <input type="text" id="userInput" placeholder="Type your message..." />
+    <button id="sendBtn">Send</button>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 AyurSutra Panchkarma | All Rights Reserved</p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
