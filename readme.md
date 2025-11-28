@@ -31,7 +31,7 @@ A comprehensive web-based therapy scheduling platform for Ayurvedic Panchkarma t
 
 2. **Install dependencies**
 ```bash
-npm install
+npm install express mongoose cors body-parser
 ```
 
 3. **Start MongoDB**
