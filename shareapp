@@ -1,0 +1,134 @@
+from flask import Flask, request, render_template_string, send_file, send_from_directory, abort
+import os
+import zipfile
+import shutil
+
+app = Flask(__name__)
+
+UPLOAD_FOLDER = "uploads"
+SHARE_FOLDER = "shared_from_laptop"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.makedirs(SHARE_FOLDER, exist_ok=True)
+
+HTML = """
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bidirectional File + Folder Transfer</title>
+</head>
+<body>
+    <h2>📤 Upload from Phone to Laptop</h2>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <h3>Upload Multiple Files:</h3>
+        <input type="file" name="files" multiple>
+        <br><br>
+        
+        <h3>Upload Folder:</h3>
+        <input type="file" name="folder" webkitdirectory directory multiple>
+        <br><br>
+
+        <input type="submit" value="Upload to Laptop">
+    </form>
+    
+    <hr>
+
+    <h2>📥 Download from Laptop to Phone</h2>
+
+    <h3>Files:</h3>
+    {% if files %}
+        <ul>
+        {% for file in files %}
+            <li><a href="/download/file/{{ file }}">{{ file }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No files found in 'shared_from_laptop/files/'</p>
+    {% endif %}
+
+    <h3>Folders:</h3>
+    {% if folders %}
+        <ul>
+        {% for folder in folders %}
+            <li><a href="/download/folder/{{ folder }}">{{ folder }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No folders found in 'shared_from_laptop/'</p>
+    {% endif %}
+</body>
+</html>
+"""
+
+@app.route("/")
+def index():
+    entries = os.listdir(SHARE_FOLDER)
+    files = []
+    folders = []
+
+    for item in entries:
+        full_path = os.path.join(SHARE_FOLDER, item)
+        if os.path.isfile(full_path):
+            files.append(item)
+        elif os.path.isdir(full_path):
+            folders.append(item)
+
+    return render_template_string(HTML, files=files, folders=folders)
+
+@app.route("/upload", methods=["POST"])
+def upload_file():
+
+    uploaded_files = []
+
+    # ============= Upload normal files =============
+    files = request.files.getlist("files")
+    for f in files:
+        if f.filename:
+            path = os.path.join(UPLOAD_FOLDER, f.filename)
+            f.save(path)
+            uploaded_files.append(f.filename)
+
+    # ============= Upload folder content ============
+    folder_files = request.files.getlist("folder")
+    for f in folder_files:
+        if f.filename:
+            save_path = os.path.join(UPLOAD_FOLDER, f.filename)
+            os.makedirs(os.path.dirname(save_path), exist_ok=True)
+            f.save(save_path)
+            uploaded_files.append(f.filename)
+
+    if uploaded_files:
+        return f"Uploaded {len(uploaded_files)} items! <br><a href='/'>Go Back</a>"
+    return "No files uploaded <br><a href='/'>Go Back</a>"
+
+@app.route("/download/file/<filename>")
+def download_file(filename):
+    file_path = os.path.join(SHARE_FOLDER, filename)
+    if not os.path.isfile(file_path):
+        abort(404)
+    return send_from_directory(SHARE_FOLDER, filename, as_attachment=True)
+
+@app.route("/download/folder/<foldername>")
+def download_folder(foldername):
+    folder_path = os.path.join(SHARE_FOLDER, foldername)
+    if not os.path.isdir(folder_path):
+        abort(404)
+
+    zip_path = f"{foldername}.zip"
+
+    # Create zip archive
+    shutil.make_archive(foldername, 'zip', folder_path)
+
+    # Send and delete zip afterwards
+    return send_file(zip_path, as_attachment=True)
+
+if __name__ == "__main__":
+    print("\n" + "="*60)
+    print("BIDIRECTIONAL FILE + FOLDER TRANSFER SERVER")
+    print("="*60)
+    print(f"📤 Phone → Laptop uploads saved to: {UPLOAD_FOLDER}/")
+    print(f"📥 Laptop → Phone share from:     {SHARE_FOLDER}/")
+    print("📁 Folders will be zipped automatically before download.")
+    print("="*60 + "\n")
+
+    app.run(host="0.0.0.0", port=5000, ssl_context="adhoc", debug=True)
